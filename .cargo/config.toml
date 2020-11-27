@@ -1,0 +1,19 @@
+[unstable]
+
+# Recompile the core and compiler_builtins libs which are distributed together with 
+# rustc as a precompiled lib but are "lost" due to our newly defined custom target (x86_64-os.json) 
+build-std = ["core", "compiler_builtins"]
+
+# We enable memory-related functions provided by compiler_builtins that are not
+# enabled by default since they are normally provided by the C lib on the system
+# (memset, memcpy, memcmp)
+build-std-features = ["compiler-builtins-mem"]
+
+[build]
+
+# Override the default target for cargo build 
+target = "x86_64-os.json"
+
+# Now we can run our kernel in QEMU with cargo run
+[target.'cfg(target_os = "none")']
+runner = "bootimage runner"
