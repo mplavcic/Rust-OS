@@ -6,11 +6,13 @@ use core::panic::PanicInfo;
 
 #[panic_handler] // used to define the behavior of panic! in #![no_std] app
 fn panic(_info: &PanicInfo) -> ! {
+    println!("{}", _info);
     loop {}    
 }
 
 #[no_mangle] // turns off Rust's name mangling, so that it is easier to link to
 pub extern "C" fn _start() -> ! { // this function is adhere to the C calling convention
-    vga_buffer::print_something();
+    println!("Hello World{}", "!");
+    panic!("Some panic message!);
     loop {}
 }
